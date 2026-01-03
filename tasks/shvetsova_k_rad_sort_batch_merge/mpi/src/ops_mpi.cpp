@@ -78,7 +78,7 @@ bool ShvetsovaKRadSortBatchMergeMPI::RunImpl() {
   if (rank == 0) {
     for (size_t i = 0; i < comparators_count; i++) {
       flat_comparators[2 * i] = comparators[i].first;
-      flat_comparators[2 * i + 1] = comparators[i].second;
+      flat_comparators[(2 * i) + 1] = comparators[i].second;
     }
   }
 
@@ -86,7 +86,7 @@ bool ShvetsovaKRadSortBatchMergeMPI::RunImpl() {
 
   // Восстанавливаем компараторы из плоского массива
   for (size_t i = 0; i < comparators_count; i++) {
-    comparators[i] = {flat_comparators[2 * i], flat_comparators[2 * i + 1]};
+    comparators[i] = {flat_comparators[2 * i], flat_comparators[(2 * i) + 1]};
   }
 
   // Распределение данных
@@ -287,7 +287,7 @@ void ShvetsovaKRadSortBatchMergeMPI::CountDigits(const std::vector<int> &arr, in
 }
 
 void ShvetsovaKRadSortBatchMergeMPI::AccumulateCounts(std::vector<int> &count) {
-  for (int i = 1; i < static_cast<int>(count.size()); i++) {
+  for (int i = 1; std::cmp_less(i, count.size()); i++) {
     count[i] += count[i - 1];
   }
 }
@@ -331,7 +331,7 @@ void ShvetsovaKRadSortBatchMergeMPI::RadixSort(std::vector<int> &arr) {
     return;
   }
 
-  int max_num = *std::max_element(arr.begin(), arr.end());
+  int max_num = *std::ranges::max_element(arr);
 
   for (int digit_place = 1; max_num / digit_place > 0; digit_place *= 10) {
     CountingSort(arr, digit_place);

@@ -23,7 +23,7 @@ class ShvetsovaKRadSortBatchMergeRunPerfTestProcesses : public ppc::util::BaseRu
     std::uniform_int_distribution<int> dis(0, 1000000);
 
     for (int i = 0; i < n; ++i) {
-      input_data_[i] = static_cast<double>(dis(gen));
+      input_data_[i] = dis(gen);
     }
   }
 

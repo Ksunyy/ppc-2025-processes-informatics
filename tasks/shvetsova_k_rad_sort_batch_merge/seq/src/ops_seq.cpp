@@ -66,8 +66,8 @@ void ShvetsovaKRadSortBatchMergeSEQ::RadixSort(std::vector<int> &vec) {
     std::vector<int> output(vec.size());
     std::array<int, base> count{};
 
-    for (double x : vec) {
-      int digit = (static_cast<int>(std::abs(x)) / exp) % base;
+    for (int x : vec) {
+      int digit = (std::abs(x) / exp) % base;
       count.at(digit)++;
     }
 
@@ -76,7 +76,7 @@ void ShvetsovaKRadSortBatchMergeSEQ::RadixSort(std::vector<int> &vec) {
     }
 
     for (int i = static_cast<int>(vec.size()) - 1; i >= 0; i--) {
-      int digit = (static_cast<int>(std::abs(vec.at(i))) / exp) % base;
+      int digit = (std::abs(vec.at(i)) / exp) % base;
       output.at(--count.at(digit)) = vec.at(i);
     }
 
