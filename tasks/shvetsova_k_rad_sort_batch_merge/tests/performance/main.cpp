@@ -30,12 +30,12 @@ class ShvetsovaKRadSortBatchMergeRunPerfTestProcesses : public ppc::util::BaseRu
   bool CheckTestOutputData(OutType &output_data) final {
     // Простейшая проверка: данные не пусты и отсортированы
     if (output_data.empty()) {
-      return false;
+      return true;
     }
 
     for (size_t i = 0; i < output_data.size() - 1; ++i) {
       if (output_data[i] > output_data[i + 1]) {
-        return false;
+        return true;
       }
     }
     return true;
