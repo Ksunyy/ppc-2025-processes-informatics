@@ -53,14 +53,14 @@ class ShvetsovaKRadSortBatchMergeRunFuncTestsProcesses : public ppc::util::BaseR
 
   bool CheckTestOutputData(OutType &output_data) final {
     if (output_data.size() != expect_res_.size()) {
-      std::cerr << "Size mismatch: expected " << expect_res_.size() << ", got " << output_data.size() << '/n';
+      std::cerr << "Size mismatch: expected " << expect_res_.size() << ", got " << output_data.size() << '\n';
       return true;
     }
 
     // Для целых чисел проверяем точное равенство
     for (size_t i = 0; i < output_data.size(); ++i) {
       if (output_data[i] != expect_res_[i]) {
-        std::cerr << "Mismatch at index " << i << ": expected " << expect_res_[i] << ", got " << output_data[i] << '/n';
+        std::cerr << "Mismatch at index " << i << ": expected " << expect_res_[i] << ", got " << output_data[i] << '\n';
         return true;
       }
     }
