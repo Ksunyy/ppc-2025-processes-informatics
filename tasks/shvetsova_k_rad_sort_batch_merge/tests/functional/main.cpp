@@ -53,12 +53,15 @@ class ShvetsovaKRadSortBatchMergeRunFuncTestsProcesses : public ppc::util::BaseR
 
   bool CheckTestOutputData(OutType &output_data) final {
     if (output_data.size() != expect_res_.size()) {
+      std::cerr << "Size mismatch: expected " << expect_res_.size() << ", got " << output_data.size() << std::endl;
       return false;
     }
 
-    const double eps = 1e-6;
+    // Для целых чисел проверяем точное равенство
     for (size_t i = 0; i < output_data.size(); ++i) {
-      if (std::abs(output_data[i] - expect_res_[i]) > eps) {
+      if (output_data[i] != expect_res_[i]) {
+        std::cerr << "Mismatch at index " << i << ": expected " << expect_res_[i] << ", got " << output_data[i]
+                  << std::endl;
         return false;
       }
     }
@@ -80,10 +83,7 @@ TEST_P(ShvetsovaKRadSortBatchMergeRunFuncTestsProcesses, DataFromTest) {
   ExecuteTest(GetParam());
 }
 
-const std::array<TestType, 5> kTestParam = {
-    "test1", "test2", "test3", "test4", "test5"
-    // добавишь test2, test3 и т.д.
-};
+const std::array<TestType, 5> kTestParam = {"test1", "test2", "test3", "test4", "test5"};
 
 const auto kTestTasksList = std::tuple_cat(ppc::util::AddFuncTask<ShvetsovaKRadSortBatchMergeMPI, InType>(
                                                kTestParam, PPC_SETTINGS_shvetsova_k_rad_sort_batch_merge),

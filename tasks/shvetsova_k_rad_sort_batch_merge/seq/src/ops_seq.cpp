@@ -45,13 +45,13 @@ bool ShvetsovaKRadSortBatchMergeSEQ::PostProcessingImpl() {
 
 // доп функции //
 
-void ShvetsovaKRadSortBatchMergeSEQ::CompareAndSwap(std::vector<double> &vec, int i, int j) {
+void ShvetsovaKRadSortBatchMergeSEQ::CompareAndSwap(std::vector<int> &vec, int i, int j) {
   if (vec.at(i) > vec.at(j)) {
     std::swap(vec.at(i), vec.at(j));
   }
 }
 
-void ShvetsovaKRadSortBatchMergeSEQ::RadixSort(std::vector<double> &vec) {
+void ShvetsovaKRadSortBatchMergeSEQ::RadixSort(std::vector<int> &vec) {
   if (vec.empty()) {
     return;
   }
@@ -63,7 +63,7 @@ void ShvetsovaKRadSortBatchMergeSEQ::RadixSort(std::vector<double> &vec) {
   }
 
   for (int exp = 1; max_val / exp > 0; exp *= base) {
-    std::vector<double> output(vec.size());
+    std::vector<int> output(vec.size());
     std::array<int, base> count{};
 
     for (double x : vec) {
@@ -84,7 +84,7 @@ void ShvetsovaKRadSortBatchMergeSEQ::RadixSort(std::vector<double> &vec) {
   }
 }
 
-void ShvetsovaKRadSortBatchMergeSEQ::ExecuteBatcherStep(std::vector<double> &vec, int left, int n, int p, int k) {
+void ShvetsovaKRadSortBatchMergeSEQ::ExecuteBatcherStep(std::vector<int> &vec, int left, int n, int p, int k) {
   for (int j = k % p; j <= n - 1 - k; j += 2 * k) {
     int limit = std::min(k, n - j - k);
     for (int i = 0; i < limit; ++i) {
@@ -97,7 +97,7 @@ void ShvetsovaKRadSortBatchMergeSEQ::ExecuteBatcherStep(std::vector<double> &vec
   }
 }
 
-void ShvetsovaKRadSortBatchMergeSEQ::BatcherOddEvenMergeSort(std::vector<double> &vec, int left, int right) {
+void ShvetsovaKRadSortBatchMergeSEQ::BatcherOddEvenMergeSort(std::vector<int> &vec, int left, int right) {
   int n = right - left;
   if (n <= 1) {
     return;
